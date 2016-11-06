@@ -1,4 +1,4 @@
-#include <boost/thread/thread.hpp>
+#include <thread>
 #include <boost/lockfree/spsc_queue.hpp>
 #include <iostream>
 
@@ -50,8 +50,8 @@ int main(int argc, char* argv[])
         cout << "not ";
     cout << "lockfree" << endl;
 
-    boost::thread producer_thread(producer);
-    boost::thread consumer_thread(consumer);
+    std::thread producer_thread(producer);
+    std::thread consumer_thread(consumer);
 
     producer_thread.join();
     done = true;
