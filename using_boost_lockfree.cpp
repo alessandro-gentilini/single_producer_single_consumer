@@ -1,48 +1,55 @@
 #include <thread>
 #include <atomic>
+#include <sstream>
 
 #include <boost/lockfree/spsc_queue.hpp>
 
-class A
-{
-public:
-    A(){}
-    A(int){}
-};
+#include <iostream>
 
 
 int producer_count = 0;
 std::atomic_int consumer_count (0);
 
-boost::lockfree::spsc_queue<A, boost::lockfree::capacity<1024> > spsc_queue;
+boost::lockfree::spsc_queue<std::string, boost::lockfree::capacity<16> > spsc_queue;
 
-const int iterations = 10000000;
+const int iterations = 128;
 
 void producer(void)
 {
     for (int i = 0; i != iterations; ++i) {
         int value = ++producer_count;
-        while (!spsc_queue.push(A(value)))
+        std::ostringstream oss;
+        oss << value;
+        while (!spsc_queue.push(oss.str()))
             ;
     }
+    std::cout << "Ciao povery! Io ho finito!\n" << std::flush;
 }
 
 std::atomic<bool> done (false);
 
 void consumer(void)
 {
-    A value;
+    using namespace std::chrono_literals;
+    std::string value;
     while (!done) {
-        while (spsc_queue.pop(value))
+        while (spsc_queue.pop(value)){
+            std::cout << value << " " << std::flush;
+            std::this_thread::sleep_for(100ms);
             ++consumer_count;
+        }
     }
 
-    while (spsc_queue.pop(value))
+    while (spsc_queue.pop(value)){
+        std::cout << value << " " << std::flush;
+        std::this_thread::sleep_for(100ms);
         ++consumer_count;
+    }
+    std::cout << "\n";
 }
 
 
-#include <iostream>
+
 
 int main(int argc, char* argv[])
 {
