@@ -46,11 +46,10 @@ void consumer(void)
 
 int main(int argc, char* argv[])
 {
-    using namespace std;
-    cout << "boost::lockfree::queue is ";
+    std::cout << "boost::lockfree::queue is ";
     if (!spsc_queue.is_lock_free())
-        cout << "not ";
-    cout << "lockfree" << endl;
+        std::cout << "not ";
+    std::cout << "lockfree\n";
 
     std::thread producer_thread(producer);
     std::thread consumer_thread(consumer);
@@ -59,6 +58,6 @@ int main(int argc, char* argv[])
     done = true;
     consumer_thread.join();
 
-    cout << "produced " << producer_count << " objects." << endl;
-    cout << "consumed " << consumer_count << " objects." << endl;
+    std::cout << "produced " << producer_count << " objects.\n";
+    std::cout << "consumed " << consumer_count << " objects.\n";
 }
