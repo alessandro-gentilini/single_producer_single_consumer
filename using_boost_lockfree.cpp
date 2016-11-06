@@ -1,8 +1,7 @@
 #include <thread>
-#include <boost/lockfree/spsc_queue.hpp>
-#include <iostream>
+#include <atomic>
 
-#include <boost/atomic.hpp>
+#include <boost/lockfree/spsc_queue.hpp>
 
 class A
 {
@@ -13,7 +12,7 @@ public:
 
 
 int producer_count = 0;
-boost::atomic_int consumer_count (0);
+std::atomic_int consumer_count (0);
 
 boost::lockfree::spsc_queue<A, boost::lockfree::capacity<1024> > spsc_queue;
 
@@ -28,7 +27,7 @@ void producer(void)
     }
 }
 
-boost::atomic<bool> done (false);
+std::atomic<bool> done (false);
 
 void consumer(void)
 {
@@ -41,6 +40,9 @@ void consumer(void)
     while (spsc_queue.pop(value))
         ++consumer_count;
 }
+
+
+#include <iostream>
 
 int main(int argc, char* argv[])
 {
