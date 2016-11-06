@@ -1,0 +1,11 @@
+cmake_minimum_required(VERSION 3.6)
+set(Boost_USE_STATIC_LIBS OFF) 
+set(Boost_USE_MULTITHREADED ON)  
+set(Boost_USE_STATIC_RUNTIME OFF) 
+find_package(Boost 1.61 COMPONENTS thread) 
+
+if(Boost_FOUND)
+    include_directories(${Boost_INCLUDE_DIRS}) 
+    add_executable(using_boost_lockfree using_boost_lockfree.cpp) 
+    target_link_libraries(using_boost_lockfree ${Boost_LIBRARIES})
+endif()
