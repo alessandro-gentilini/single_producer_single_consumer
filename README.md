@@ -17,6 +17,8 @@ https://github.com/spopa01/cpp_playground/blob/master/cpp_concurrency/lock_free_
 
 http://tinesware.blogspot.it/2009/07/simple-lockfree-queue-c-windows.html based on the answer http://stackoverflow.com/a/1164042/15485 to the question http://stackoverflow.com/questions/1164023/is-there-a-production-ready-lock-free-queue-or-hash-implementation-in-c
 
+https://github.com/rigtorp/SPSCQueue
+
 ## Books
 [TAUBENFELD, Gadi. *Synchronization algorithms and concurrent programming*. Pearson Education, 2006.](http://www.faculty.idc.ac.il/gadi/book.htm)
 
